@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 const validatePassword = (value) => {
   if (!value.trim()) return 'Password is required';
-  if (value.trim().length < 8) return 'Password must be at least 8 characters';
-  if (!/[a-zA-Z]/.test(value) || !/[0-9]/.test(value)) return 'Password must include at least one letter and one number';
+  if (value.trim().length < 4) return 'Password must be at least 4 characters';
   return '';
 };
 
@@ -49,8 +48,7 @@ function Auth({ onAuthenticated }) {
     <div className="auth-shell">
       <section className="auth-card">
         <div className="auth-copy">
-          <h1>{isRegister ? 'Sign Up' : 'Login'}</h1>
-          <p>Enter your ID and password, then move directly into the calendar-first task flow.</p>
+          <h1>{isRegister ? 'TodoCal : SignUp' : 'TodoCal'}</h1>
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <label className="field">

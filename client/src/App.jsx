@@ -179,7 +179,7 @@ function MainApp() {
             <div>
               <h1>TodoCal</h1>
               <p className="dashboard-subtitle">
-                Track due dates on the calendar and monitor active tasks for {user.username}.
+                Track due dates on the calendar and monitor active tasks on the right, <strong>{user.username}</strong>
               </p>
             </div>
             <div className="calendar-nav">

@@ -55,9 +55,9 @@ It is intended to bridge the gap between product planning and implementation.
 
 ### 3.3. Password Rules
 - Password must not be empty.
-- Password should have a minimum length of 8 characters.
-- Password should include at least one letter and one number.
-- Exact password complexity can be relaxed or strengthened during implementation, but empty passwords must always be blocked.
+- Password must have a minimum length of 4 characters.
+- Any character type is allowed.
+- No letter, number, or special character composition rule is required.
 
 ### 3.4. Submit Rules
 - Sign-up submit must be disabled or blocked while required fields are invalid.
@@ -68,7 +68,7 @@ It is intended to bridge the gap between product planning and implementation.
 - Missing ID: show `ID is required` or equivalent localized message.
 - Missing password: show `Password is required` or equivalent localized message.
 - Duplicate ID: show `ID already exists` or equivalent localized message.
-- Invalid password policy: show the password requirement clearly.
+- Invalid password policy: show that password must be at least 4 characters long.
 
 ## 4. Calendar View Spec
 
@@ -357,4 +357,21 @@ Due:     YYYY-MM-DD
 - Favicon must be `📆`
 - Default Vite favicon must be removed or replaced
 - Default title such as `client` must be replaced with `TodoCal`
+
+
+## 15. Header Section Spec
+- Header title must display `TodoCal`
+- Header description should explain the main product workflow
+- Recommended copy: `Track due dates on the calendar and monitor active tasks on the right, **username**`
+- Username must be rendered with stronger visual emphasis than the rest of the description
+- Username emphasis can use bold font weight or equivalent styling
+- If username is unavailable, omit the username segment rather than showing an empty placeholder
+
+
+## 16. Login Copy Spec
+- Login screen title must display `TodoCal`
+- Sign-up screen title must display `TodoCal : SignUp`
+- Do not use `Login` as the main screen title
+- Remove helper text such as `enter your id`
+- Login screen should keep only essential form labels and actions
 

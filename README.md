@@ -15,7 +15,7 @@ The app is built around a split dashboard:
 ## Features
 
 - Login and sign-up with ID/password validation
-- Password policy enforcement on both client and server
+- 4+ character password policy enforcement on both client and server
 - Calendar task display by `dueDate` only
 - Past dates disabled in calendar and due-date input
 - Date-context-aware Add Task flow

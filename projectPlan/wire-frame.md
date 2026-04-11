@@ -12,7 +12,7 @@ Authenticate existing users and provide entry to the sign-up flow.
 - Secondary sign-up action placed below the primary button
 
 ### UI Elements
-- Title: `Login`
+- Title: `TodoCal`
 - Input: `ID`
 - Input: `PW`
 - Button: `Sign In`
@@ -24,10 +24,17 @@ Authenticate existing users and provide entry to the sign-up flow.
 - Click `Sign Up` to move to registration flow
 - Sign-up must fail when ID or password is empty
 
+
+### Login Copy Rule
+- Login screen title must be `TodoCal`, not `Login`.
+- Sign-up screen title must be `TodoCal : SignUp`.
+- Helper copy such as `enter your id` should not be displayed.
+- Keep the login screen copy minimal.
+
 ### ASCII Wireframe
 ```text
 +-----------------------------------------------------------+
-| Login                                                     |
+| TodoCal                                                   |
 |                                                           |
 |        ID   [____________________]   [   Sign In   ]      |
 |        PW   [____________________]                        |
@@ -47,12 +54,13 @@ Prevent invalid account creation from the sign-up flow.
 - Password is required
 - Whitespace-only values are invalid
 - Duplicate ID is invalid
-- Password must satisfy the configured password policy
+- Password must be at least 4 characters long
+- Any character type is allowed
 
 ### ASCII Wireframe
 ```text
 +-----------------------------------------------------------+
-| Sign Up                                                   |
+| TodoCal : SignUp                                         |
 |                                                           |
 |        ID   [____________________]                        |
 |             ID is required                                |
@@ -401,4 +409,15 @@ Login
 - Browser title: `TodoCal`
 - Favicon: `📆`
 - Do not keep the default Vite favicon or `client` title
+
+
+## 15. Header Section Notes
+- Header title: `TodoCal`
+- Header description: `Track due dates on the calendar and monitor active tasks on the right, **username**`
+- Username at the end of the header description must be bold/emphasized
+
+```text
+TodoCal
+Track due dates on the calendar and monitor active tasks on the right, **test1**
+```
 

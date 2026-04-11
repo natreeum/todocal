@@ -39,12 +39,8 @@ function validatePasswordPolicy(password) {
         return 'Password is required.';
     }
 
-    if (password.length < 8) {
-        return 'Password must be at least 8 characters.';
-    }
-
-    if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
-        return 'Password must include at least one letter and one number.';
+    if (password.length < 4) {
+        return 'Password must be at least 4 characters.';
     }
 
     return null;

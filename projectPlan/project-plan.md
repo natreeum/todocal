@@ -8,6 +8,9 @@ The primary UX is centered around a split main screen: a calendar view on the le
 
 ### 2.1. Login And Sign-Up Screen
 The login screen is the entry point for authentication and provides access to the sign-up flow.
+The login screen title must display `TodoCal` instead of `Login`.
+The sign-up screen title must display `TodoCal : SignUp`.
+Helper copy such as `enter your id` must be removed.
 
 - Layout
   - Center-aligned card UI
@@ -152,7 +155,7 @@ When the user selects a task from either the calendar view, the right task list,
 - Sign-up must reject empty ID and empty password
 - Sign-up must trim whitespace-only input and treat it as empty
 - Sign-up must reject duplicate IDs
-- Password must satisfy the minimum password policy defined in the UI spec
+- Password must be at least 4 characters long
 
 ### 3.2. Calendar-Based Task Browsing
 - Users can browse tasks through the monthly calendar view
@@ -243,7 +246,7 @@ When the user selects a task from either the calendar view, the right task list,
 - Password is required
 - Whitespace-only ID or password must be treated as empty
 - Duplicate ID must be rejected
-- Password must satisfy the minimum password policy
+- Password must be at least 4 characters long
 - Sign-up submit must be disabled or blocked until required fields are valid
 - Validation errors must be visible to the user
 
@@ -280,4 +283,12 @@ When the user selects a task from either the calendar view, the right task list,
 - Favicon must use the calendar emoji: `📆`
 - Default Vite favicon must be replaced
 - Default title such as `client` must not be used
+
+
+## 12. Header Section
+- Header title must display `TodoCal`
+- Header description can use product guidance text such as: `Track due dates on the calendar and monitor active tasks on the right.`
+- Header description should end with the current username when the user is signed in
+- Username must be visually emphasized, for example with bold text
+- Example: `Track due dates on the calendar and monitor active tasks on the right, **username**`
 
