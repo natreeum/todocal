@@ -1,9 +1,12 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
+const crypto = require('crypto');
 
 const app = express();
 const port = 3001;
+const PASSWORD_HASH_PREFIX = 'scrypt';
+const PASSWORD_KEY_LENGTH = 64;
 
 const TASK_STATUS = {
     DONE: 'done',
@@ -44,6 +47,35 @@ function validatePasswordPolicy(password) {
     }
 
     return null;
+}
+
+function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.scryptSync(password, salt, PASSWORD_KEY_LENGTH).toString('hex');
+    return `${PASSWORD_HASH_PREFIX}$${salt}$${hash}`;
+}
+
+function isPasswordHash(value) {
+    return typeof value === 'string' && value.startsWith(`${PASSWORD_HASH_PREFIX}$`);
+}
+
+function verifyPassword(password, storedPassword) {
+    if (!isPasswordHash(storedPassword)) {
+        return password === storedPassword;
+    }
+
+    const [, salt, storedHash] = storedPassword.split('$');
+    if (!salt || !storedHash) {
+        return false;
+    }
+
+    const derivedHash = crypto.scryptSync(password, salt, PASSWORD_KEY_LENGTH);
+    const storedHashBuffer = Buffer.from(storedHash, 'hex');
+
+    return (
+        storedHashBuffer.length === derivedHash.length
+        && crypto.timingSafeEqual(storedHashBuffer, derivedHash)
+    );
 }
 
 const db = new sqlite3.Database('./todo.db', (err) => {
@@ -248,9 +280,11 @@ app.post('/register', (req, res) => {
         return res.status(400).json({ error: passwordError });
     }
 
+    const passwordHash = hashPassword(password);
+
     db.run(
         'INSERT INTO users (username, password, role, status, createdAt) VALUES (?, ?, ?, ?, ?)',
-        [username, password, USER_ROLE.USER, USER_STATUS.ACTIVE, todayString()],
+        [username, passwordHash, USER_ROLE.USER, USER_STATUS.ACTIVE, todayString()],
         function insertUser(err) {
             if (err) {
                 if (err.message.includes('UNIQUE')) {
@@ -280,14 +314,14 @@ app.post('/login', (req, res) => {
     }
 
     db.get(
-        'SELECT * FROM users WHERE username = ? AND password = ?',
-        [username, password],
+        'SELECT * FROM users WHERE username = ?',
+        [username],
         (err, row) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
 
-            if (!row) {
+            if (!row || !verifyPassword(password, row.password)) {
                 return res.status(401).json({ message: 'Invalid credentials' });
             }
 
@@ -295,7 +329,8 @@ app.post('/login', (req, res) => {
                 return res.status(403).json({ message: 'Account is inactive' });
             }
 
-            db.run('UPDATE users SET lastLoginAt = ? WHERE id = ?', [todayString(), row.id], (updateErr) => {
+            const nextPassword = isPasswordHash(row.password) ? row.password : hashPassword(password);
+            db.run('UPDATE users SET password = ?, lastLoginAt = ? WHERE id = ?', [nextPassword, todayString(), row.id], (updateErr) => {
                 if (updateErr) {
                     return res.status(500).json({ error: updateErr.message });
                 }
@@ -525,7 +560,7 @@ app.patch('/admin/users/:userId/password', requireAdmin, (req, res) => {
         return res.status(400).json({ error: passwordError });
     }
 
-    db.run('UPDATE users SET password = ? WHERE id = ?', [password, userId], function resetPassword(err) {
+    db.run('UPDATE users SET password = ? WHERE id = ?', [hashPassword(password), userId], function resetPassword(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
