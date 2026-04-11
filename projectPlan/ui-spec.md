@@ -215,15 +215,18 @@ It is intended to bridge the gap between product planning and implementation.
 
 ### 9.3. Display Fields
 - `Task Name`
-- `Created`
+- `Create`
 - `Due Date`
 - `Status`
+- Do not display `selectedDate` in the task detail popup
 
 ### 9.4. Actions
 - `Status Toggle`
 - `Delete Task`
 
 ### 9.5. Shared Behavior Rule
+- Task title must have higher visual emphasis than metadata fields.
+- Task title must be easy to read at a glance.
 - All task entry points must open the same task detail popup UI.
 - The displayed task data and available actions must be identical regardless of entry point.
 

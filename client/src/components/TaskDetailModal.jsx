@@ -7,14 +7,14 @@ function TaskDetailModal({ task, onClose, onToggleStatus, onDelete }) {
         <div className="modal-header">
           <div>
             <h2>Task Detail</h2>
-            <p className="modal-subtitle">{task.taskName}</p>
+            <p className="task-detail-title">{task.taskName}</p>
           </div>
           <button className="ghost-button" onClick={onClose}>Close</button>
         </div>
 
         <div className="detail-grid">
           <div className="detail-row">
-            <span>Created</span>
+            <span>Create</span>
             <strong>{task.createdAt}</strong>
           </div>
           <div className="detail-row">
@@ -28,10 +28,6 @@ function TaskDetailModal({ task, onClose, onToggleStatus, onDelete }) {
           <div className="detail-row">
             <span>Status</span>
             <strong>{task.status}</strong>
-          </div>
-          <div className="detail-row">
-            <span>Selected Date</span>
-            <strong>{task.selectedDate}</strong>
           </div>
         </div>
 

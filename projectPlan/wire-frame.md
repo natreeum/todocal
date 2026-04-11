@@ -278,13 +278,14 @@ Present the full metadata of a selected task from any entry point.
 
 ### Layout
 - Detail modal layout
-- Task name at the top
+- Task title at the top with strong visual emphasis
 - Metadata fields listed vertically below
+- Selected date is not shown in this popup
 - Status change action at the bottom or side area
 
 ### UI Elements
 - Task title
-- Field: `Created`
+- Field: `Create`
 - Field: `Due Date`
 - Field: `Status`
 - Toggle: `Undone | Done`
@@ -307,9 +308,9 @@ Present the full metadata of a selected task from any entry point.
 +---------------------------------------------------+
 | Task Detail                                       |
 |                                                   |
-| Task 1                                            |
+| TASK 1                                            |
 |                                                   |
-| Created : YYYY.MM.DD                              |
+| Create  : YYYY.MM.DD                              |
 | Due Date: YYYY.MM.DD                              |
 | Status  : undone                                  |
 |                                                   |
