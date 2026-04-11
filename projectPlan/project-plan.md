@@ -287,8 +287,18 @@ When the user selects a task from either the calendar view, the right task list,
 
 ## 12. Header Section
 - Header title must display `TodoCal`
-- Header description can use product guidance text such as: `Track due dates on the calendar and monitor active tasks on the right.`
-- Header description should end with the current username when the user is signed in
+- Header description format: `Welcome {username}, {randMessage}`
 - Username must be visually emphasized, for example with bold text
-- Example: `Track due dates on the calendar and monitor active tasks on the right, **username**`
-
+- `randMessage` is selected randomly from predefined encouraging messages
+- If username is unavailable, use `Welcome, {randMessage}`
+- Random message candidates:
+  - `Have a good day.`
+  - `Let's make today productive.`
+  - `Small steps count.`
+  - `You've got this.`
+  - `Stay focused and keep going.`
+  - `One task at a time.`
+  - `Make today count.`
+  - `Keep your momentum.`
+  - `Ready to plan your day?`
+  - `Let's get things done.`

@@ -17,6 +17,18 @@ const formatDisplayDate = (value) =>
   }).format(new Date(value));
 
 const todayString = () => new Date().toISOString().split('T')[0];
+const headerMessages = [
+  'Have a good day.',
+  "Let's make today productive.",
+  'Small steps count.',
+  "You've got this.",
+  'Stay focused and keep going.',
+  'One task at a time.',
+  'Make today count.',
+  'Keep your momentum.',
+  'Ready to plan your day?',
+  "Let's get things done.",
+];
 const statusRank = {
   undone: 0,
   done: 1,
@@ -45,6 +57,9 @@ function MainApp() {
   const [activeTask, setActiveTask] = useState(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [draftDueDate, setDraftDueDate] = useState(todayString());
+  const [headerMessage, setHeaderMessage] = useState(
+    () => headerMessages[Math.floor(Math.random() * headerMessages.length)],
+  );
 
   const fetchTasks = async (nextUserId = user?.id) => {
     if (!nextUserId) return;
@@ -64,6 +79,7 @@ function MainApp() {
   };
 
   const handleAuthSuccess = async (nextUser) => {
+    setHeaderMessage(headerMessages[Math.floor(Math.random() * headerMessages.length)]);
     setUser(nextUser);
     await fetchTasks(nextUser.id);
   };
@@ -180,7 +196,13 @@ function MainApp() {
             <div>
               <h1>TodoCal</h1>
               <p className="dashboard-subtitle">
-                Track due dates on the calendar and monitor active tasks on the right, <strong>{user.username}</strong>
+                {user.username ? (
+                  <>
+                    Welcome <strong>{user.username}</strong>, {headerMessage}
+                  </>
+                ) : (
+                  <>Welcome, {headerMessage}</>
+                )}
               </p>
             </div>
             <div className="calendar-nav">

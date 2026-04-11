@@ -413,11 +413,23 @@ Login
 
 ## 15. Header Section Notes
 - Header title: `TodoCal`
-- Header description: `Track due dates on the calendar and monitor active tasks on the right, **username**`
-- Username at the end of the header description must be bold/emphasized
+- Header description: `Welcome **username**, randMessage`
+- Username must be bold/emphasized
+- `randMessage` is selected randomly from the predefined encouraging message list
 
 ```text
 TodoCal
-Track due dates on the calendar and monitor active tasks on the right, **test1**
+Welcome **test1**, Have a good day.
 ```
 
+### Random Message Candidates
+  - `Have a good day.`
+  - `Let's make today productive.`
+  - `Small steps count.`
+  - `You've got this.`
+  - `Stay focused and keep going.`
+  - `One task at a time.`
+  - `Make today count.`
+  - `Keep your momentum.`
+  - `Ready to plan your day?`
+  - `Let's get things done.`

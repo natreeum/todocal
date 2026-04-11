@@ -361,12 +361,22 @@ Due:     YYYY-MM-DD
 
 ## 15. Header Section Spec
 - Header title must display `TodoCal`
-- Header description should explain the main product workflow
-- Recommended copy: `Track due dates on the calendar and monitor active tasks on the right, **username**`
+- Header description format must be `Welcome {username}, {randMessage}`
 - Username must be rendered with stronger visual emphasis than the rest of the description
 - Username emphasis can use bold font weight or equivalent styling
-- If username is unavailable, omit the username segment rather than showing an empty placeholder
-
+- `randMessage` must be selected randomly from the predefined encouraging message list
+- If username is unavailable, omit the username segment and use `Welcome, {randMessage}`
+- Random message candidates:
+  - `Have a good day.`
+  - `Let's make today productive.`
+  - `Small steps count.`
+  - `You've got this.`
+  - `Stay focused and keep going.`
+  - `One task at a time.`
+  - `Make today count.`
+  - `Keep your momentum.`
+  - `Ready to plan your day?`
+  - `Let's get things done.`
 
 ## 16. Login Copy Spec
 - Login screen title must display `TodoCal`
