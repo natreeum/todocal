@@ -267,6 +267,29 @@ function requireAdmin(req, res, next) {
     });
 }
 
+function handleHealthCheck(req, res) {
+    db.get('SELECT 1 AS ok', (err) => {
+        if (err) {
+            return res.status(503).json({
+                status: 'error',
+                database: 'error',
+                error: err.message,
+                timestamp: new Date().toISOString(),
+            });
+        }
+
+        res.status(200).json({
+            status: 'ok',
+            database: 'ok',
+            uptime: process.uptime(),
+            timestamp: new Date().toISOString(),
+        });
+    });
+}
+
+app.get('/health', handleHealthCheck);
+app.get('/api/health', handleHealthCheck);
+
 app.post('/register', (req, res) => {
     const username = normalizeInput(req.body.username);
     const password = normalizeInput(req.body.password);

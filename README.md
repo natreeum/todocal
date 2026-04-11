@@ -121,6 +121,14 @@ Server:
 ```bash
 cd server
 npm start
+npm run permissions -- --list
+npm run permissions -- --username minseob --role admin --status active
+```
+
+Health check:
+
+```text
+GET /health
 ```
 
 ## Data Notes
