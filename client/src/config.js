@@ -1,7 +1,7 @@
 const DEFAULT_API_BASE_URL_BY_MODE = {
   development: "http://localhost:3001",
   test: "http://localhost:3001",
-  production: "https://todo-cal.kro.kr/api",
+  production: "https://todo-cal.sitey.my/api",
 };
 
 const normalizeBaseUrl = (value) => value.replace(/\/+$/, "");
