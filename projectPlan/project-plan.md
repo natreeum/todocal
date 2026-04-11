@@ -113,7 +113,7 @@ When the user selects a task from either the calendar view, the right task list,
 
 - Displayed Information
   - Task Name
-  - Create
+  - Created
   - Due Date
   - Status
 - Actions
@@ -125,6 +125,7 @@ When the user selects a task from either the calendar view, the right task list,
 - Notes
   - Task title must have strong visual emphasis and must be easy to read
   - Selected date is not displayed in the task detail popup
+  - Start Date is not displayed in the task detail popup because it has the same value as Created
   - All task entry points must trigger the same popup behavior
   - Status must be clearly visible to the user
   - The detail popup must provide a toggle for changing the task status
@@ -177,7 +178,7 @@ When the user selects a task from either the calendar view, the right task list,
 
 ### 3.7. Task Detail Inspection
 - Users can open a task detail popup from the calendar, the right task list, and the date active task list popup
-- The detail popup must show create date, due date, and current status
+- The detail popup must show created date, due date, and current status
 - The detail popup must provide a status toggle action
 
 

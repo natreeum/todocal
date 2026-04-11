@@ -14,12 +14,8 @@ function TaskDetailModal({ task, onClose, onToggleStatus, onDelete }) {
 
         <div className="detail-grid">
           <div className="detail-row">
-            <span>Create</span>
+            <span>Created</span>
             <strong>{task.createdAt}</strong>
-          </div>
-          <div className="detail-row">
-            <span>Start Date</span>
-            <strong>{task.startDate}</strong>
           </div>
           <div className="detail-row">
             <span>Due Date</span>

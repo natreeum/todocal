@@ -215,10 +215,11 @@ It is intended to bridge the gap between product planning and implementation.
 
 ### 9.3. Display Fields
 - `Task Name`
-- `Create`
+- `Created`
 - `Due Date`
 - `Status`
 - Do not display `selectedDate` in the task detail popup
+- Do not display `startDate` in the task detail popup because it duplicates `Created`
 
 ### 9.4. Actions
 - `Status Toggle`
