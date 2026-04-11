@@ -7,6 +7,7 @@ import TaskDetailModal from './components/TaskDetailModal';
 import DateTaskPopup from './components/DateTaskPopup';
 import DeleteConfirmModal from './components/DeleteConfirmModal';
 import AdminPage from './components/AdminPage';
+import { apiUrl } from './config';
 
 const formatDisplayDate = (value) =>
   new Intl.DateTimeFormat('en-US', {
@@ -49,7 +50,7 @@ function MainApp() {
     if (!nextUserId) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${nextUserId}`);
+      const response = await fetch(apiUrl(`/tasks/${nextUserId}`));
       if (!response.ok) {
         console.error('Failed to fetch tasks');
         return;
@@ -89,7 +90,7 @@ function MainApp() {
 
   const handleCreateTask = async ({ taskName, dueDate }) => {
     try {
-      const response = await fetch('http://localhost:3001/tasks', {
+      const response = await fetch(apiUrl('/tasks'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ function MainApp() {
     const nextStatus = task.status === 'done' ? 'undone' : 'done';
 
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${task.id}/status`, {
+      const response = await fetch(apiUrl(`/tasks/${task.id}/status`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +143,7 @@ function MainApp() {
 
   const handleDeleteTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${taskId}`, {
+      const response = await fetch(apiUrl(`/tasks/${taskId}`), {
         method: 'DELETE',
       });
 

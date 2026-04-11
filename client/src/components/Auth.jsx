@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiUrl } from '../config';
 
 const validatePassword = (value) => {
   if (!value.trim()) return 'Password is required';
@@ -24,7 +25,7 @@ function Auth({ onAuthenticated }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/${isRegister ? 'register' : 'login'}`, {
+      const response = await fetch(apiUrl(`/${isRegister ? 'register' : 'login'}`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

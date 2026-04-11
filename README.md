@@ -76,6 +76,25 @@ npm run dev
 
 Then open the Vite URL shown in the terminal.
 
+## API Configuration
+
+Client API requests are centralized in `client/src/config.js`.
+
+Default API base URLs:
+
+```text
+development -> http://localhost:3001
+test        -> http://localhost:3001
+production  -> https://todocal.sitey.my/api
+```
+
+Override per environment with Vite:
+
+```bash
+VITE_API_BASE_URL=https://todocal.sitey.my/api npm run build
+VITE_API_BASE_URL=http://localhost:3001 npm run dev
+```
+
 ## Admin Page
 
 Open:

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiUrl } from '../config';
 
 const EMPTY_SUMMARY = {
   dau: 0,
@@ -106,13 +107,13 @@ function AdminPage() {
       }
 
       const [summaryResponse, usersResponse, trendsResponse] = await Promise.all([
-        fetch('http://localhost:3001/admin/summary', {
+        fetch(apiUrl('/admin/summary'), {
           headers: adminHeaders(nextAdmin),
         }),
-        fetch(`http://localhost:3001/admin/users?${searchParams.toString()}`, {
+        fetch(apiUrl(`/admin/users?${searchParams.toString()}`), {
           headers: adminHeaders(nextAdmin),
         }),
-        fetch('http://localhost:3001/admin/trends', {
+        fetch(apiUrl('/admin/trends'), {
           headers: adminHeaders(nextAdmin),
         }),
       ]);
@@ -138,7 +139,7 @@ function AdminPage() {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:3001/login', {
+      const response = await fetch(apiUrl('/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ function AdminPage() {
     if (!window.confirm(`Change ${user.username} status to ${nextStatus}?`)) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/admin/users/${user.id}/status`, {
+      const response = await fetch(apiUrl(`/admin/users/${user.id}/status`), {
         method: 'PATCH',
         headers: adminHeaders(),
         body: JSON.stringify({ status: nextStatus }),
@@ -193,7 +194,7 @@ function AdminPage() {
     if (!window.confirm(`Change ${user.username} role to ${nextRole}?`)) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/admin/users/${user.id}/role`, {
+      const response = await fetch(apiUrl(`/admin/users/${user.id}/role`), {
         method: 'PATCH',
         headers: adminHeaders(),
         body: JSON.stringify({ role: nextRole }),
@@ -217,7 +218,7 @@ function AdminPage() {
     if (!nextPassword) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/admin/users/${user.id}/password`, {
+      const response = await fetch(apiUrl(`/admin/users/${user.id}/password`), {
         method: 'PATCH',
         headers: adminHeaders(),
         body: JSON.stringify({ password: nextPassword }),
@@ -245,7 +246,7 @@ function AdminPage() {
     if (!window.confirm(`Delete ${user.username}? This action cannot be undone.`)) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/admin/users/${user.id}`, {
+      const response = await fetch(apiUrl(`/admin/users/${user.id}`), {
         method: 'DELETE',
         headers: adminHeaders(),
       });
