@@ -126,7 +126,7 @@ Define how tasks and date selection behave in the calendar area.
 ### Date Selection Rules
 - Only today and future dates are selectable
 - Past dates are disabled or non-interactive
-- Clicking a date opens the date active task list popup
+- Clicking a date opens the date due task list popup
 - Clicking a date must not change the border color of the selected cell
 
 ### Interaction
@@ -185,10 +185,10 @@ Show tasks that are currently active relative to today.
 - Created and Due dates should be secondary metadata.
 - Status badge should remain easy to scan on the right side.
 
-## 6. Date Active Task List Popup
+## 6. Date Due Task List Popup
 
 ### Purpose
-Show the tasks active on the date selected from the calendar.
+Show tasks whose due date matches the date selected from the calendar.
 
 ### Layout
 - Modal popup displayed above the main split screen
@@ -197,15 +197,15 @@ Show the tasks active on the date selected from the calendar.
 - Add Task button placed at the top-right or lower action area
 
 ### Filtering Rule
-- Show only tasks where `startDate <= selectedDate <= dueDate`
+- Show only tasks where `dueDate = selectedDate`
 
 ### UI Elements
 - Selected date label
-- Active task list
+- Tasks due on selected date
 - Button: `Add Task`
 
 ### User Actions
-- Review tasks active on the selected date
+- Review tasks due on the selected date
 - Click a task row to open the task detail popup
 - Click `Add Task` to open the add task popup with the selected date as `dueDate`
 
@@ -214,7 +214,6 @@ Show the tasks active on the date selected from the calendar.
 +-----------------------------------------------------------+
 | 10 April                                  [ Add Task ]    |
 |                                                           |
-| Active Tasks On Selected Date                             |
 | - Task 1                                                  |
 | - ~~Task 2~~                                              |
 | - Task 3                                                  |
@@ -246,7 +245,7 @@ Allow the user to create a new task.
 - `Start Date` is not shown as an input
 - `Start Date` is automatically set when the task is saved
 - Dates before today are not selectable in the due date input
-- When opened from the date active task list popup, the due date is pre-filled with the selected date
+- When opened from the date due task list popup, the due date is pre-filled with the selected date
 
 ### ASCII Wireframe
 ```text
@@ -320,7 +319,7 @@ Present the full metadata of a selected task from any entry point.
 ### Entry Points
 - Calendar task click
 - Right task list click
-- Date active task list popup click
+- Date due task list popup click
 
 ### ASCII Wireframe
 ```text
@@ -355,7 +354,7 @@ Present the full metadata of a selected task from any entry point.
 ```text
 Login
   -> Main Split Screen
-  -> Calendar Date Click ----------> Date Active Task List Popup
+  -> Calendar Date Click ----------> Date Due Task List Popup
   -> Calendar Task Click ---------->| 
   -> Right Task List Click -------->|-> Task Detail Popup
   -> Date Popup Task Click -------->| 
@@ -371,7 +370,7 @@ Login
 - Clicking a date opens a date-specific active task list popup
 - Clicking a date must not change the date cell border color
 - The right-side list visualizes tasks active on today's date
-- The date popup visualizes tasks active on the selected date
+- The date popup visualizes tasks due on the selected date
 - Completed tasks in task lists must be styled with strikethrough and lighter text
 - Clicking a task from the calendar, the right task list, or the date popup must open the same task detail popup
 

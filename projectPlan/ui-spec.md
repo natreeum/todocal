@@ -90,7 +90,7 @@ It is intended to bridge the gap between product planning and implementation.
   - Disabled state can use lower opacity, muted text, or disabled cursor.
 - `future or today`
   - Must be selectable.
-  - Click opens the date active task list popup.
+  - Click opens the date due task list popup.
 - `clicked date`
   - Must not change border color.
   - Selection feedback should be minimal or handled by popup context rather than persistent cell outline.
@@ -153,20 +153,20 @@ Due:     YYYY-MM-DD
 - If there are no active tasks for today, show an explicit empty-state message.
 - Example intent: `No active tasks for today`.
 
-## 6. Date Active Task List Popup Spec
+## 6. Date Due Task List Popup Spec
 
 ### 5.1. Purpose
-- This popup shows tasks active on the date selected from the calendar.
+- This popup shows tasks whose due date matches the date selected from the calendar.
 
 ### 5.2. Open Condition
 - Opens when the user clicks a selectable date cell in the calendar.
 
 ### 5.3. Filtering Rule
-- Include tasks where `startDate <= selectedDate <= dueDate`.
+- Include tasks where `dueDate = selectedDate`.
 
 ### 5.4. UI Elements
 - Selected date label
-- Active task list
+- Tasks due on selected date
 - `Add Task` button
 - Close action
 
@@ -179,7 +179,7 @@ Due:     YYYY-MM-DD
 - The selected date must be passed as the `dueDate` context.
 
 ### 5.7. Empty State
-- If no tasks are active on the selected date, show an empty-state message and still keep the `Add Task` action visible.
+- If no tasks are due on the selected date, show an empty-state message and still keep the `Add Task` action visible.
 
 ## 7. Add Task Popup Spec
 
@@ -192,7 +192,7 @@ Due:     YYYY-MM-DD
 
 ### 6.3. Date Rules
 - Dates before today must not be selectable in the due date input.
-- When this popup is opened from the date active task list popup, the selected date must be pre-filled as `dueDate`.
+- When this popup is opened from the date due task list popup, the selected date must be pre-filled as `dueDate`.
 - The user may keep the pre-filled due date or change it to another selectable date unless product rules later restrict it.
 
 ### 6.4. Save Rules
@@ -230,7 +230,7 @@ Due:     YYYY-MM-DD
 ### 9.2. Entry Points
 - Calendar task chip click
 - Right task list row click
-- Date active task list popup row click
+- Date due task list popup row click
 
 ### 9.3. Display Fields
 - `Task Name`
@@ -299,7 +299,7 @@ Due:     YYYY-MM-DD
 - Completed tasks must use both:
   - strikethrough
   - lighter text color
-- This rule applies to the right task list and the date active task list popup.
+- This rule applies to the right task list and the date due task list popup.
 
 ### 11.3. Click Feedback
 - Interactive elements may use hover, subtle fill, shadow, or opacity transitions.

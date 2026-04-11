@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 TodoCal is a calendar-based To-Do Manager web application for managing personal tasks by date.
-The primary UX is centered around a split main screen: a calendar view on the left and an active task list on the right. Users can inspect tasks by due date on the calendar, monitor currently active tasks from the side panel, click a date to inspect active tasks for that date, and open the same task detail popup from either entry point.
+The primary UX is centered around a split main screen: a calendar view on the left and an active task list on the right. Users can inspect tasks by due date on the calendar, monitor currently active tasks from the side panel, click a date to inspect tasks due on that date, and open the same task detail popup from either entry point.
 
 ## 2. Core Screen Structure
 
@@ -86,14 +86,14 @@ The right panel is a continuously visible task list for currently active tasks.
 - Interaction
   - Clicking a task opens the task detail popup
 
-### 2.5. Date Active Task List Popup
-When the user clicks a selectable date in the calendar, a popup appears with the active tasks for that date.
+### 2.5. Date Due Task List Popup
+When the user clicks a selectable date in the calendar, a popup appears with the tasks due on that date.
 
 - Displayed Information
   - Selected date
   - Active task list for that date
 - Filtering Rule
-  - Include tasks where `startDate <= selectedDate <= dueDate`
+  - Include tasks where `dueDate = selectedDate`
 - Actions
   - Add Task button
   - Task item click opens task detail popup
@@ -113,10 +113,10 @@ When the user adds a new task, a task creation popup is opened.
   - Start Date is not directly entered by the user
   - Start Date is automatically set at the moment the user saves the task
   - Dates before today must not be selectable as due date
-  - When opened from the date active task list popup, the selected date is pre-filled as `dueDate`
+  - When opened from the date due task list popup, the selected date is pre-filled as `dueDate`
 
 ### 2.7. Task Detail Popup
-When the user selects a task from either the calendar view, the right task list, or the date active task list popup, the application shows a task detail popup.
+When the user selects a task from either the calendar view, the right task list, or the date due task list popup, the application shows a task detail popup.
 
 - Displayed Information
   - Task Name
@@ -160,8 +160,8 @@ When the user selects a task from either the calendar view, the right task list,
 ### 3.3. Active Task Lists
 - Users can view currently active tasks in the right-side task list
 - The right-side task list shows tasks where `startDate <= today <= dueDate`
-- Users can view date-specific active tasks from the calendar date popup
-- The date-specific active task list shows tasks where `startDate <= selectedDate <= dueDate`
+- Users can view date-specific due-date tasks from the calendar date popup
+- The date-specific due task list shows tasks where `dueDate = selectedDate`
 - Completed tasks must be visually differentiated by strikethrough and lighter text color
 - Clicking a task in any task list opens the task detail popup
 
@@ -170,7 +170,7 @@ When the user selects a task from either the calendar view, the right task list,
 - Required input fields are Task Name and Due Date
 - Start Date is automatically stored when the task is saved
 - Past dates must not be selectable in the due date input
-- When opened from the date active task list popup, the due date is set to the selected date context
+- When opened from the date due task list popup, the due date is set to the selected date context
 
 ### 3.5. Task Status Management
 - Each task has a status field
@@ -184,7 +184,7 @@ When the user selects a task from either the calendar view, the right task list,
 - A task must not be deleted immediately on first click
 
 ### 3.7. Task Detail Inspection
-- Users can open a task detail popup from the calendar, the right task list, and the date active task list popup
+- Users can open a task detail popup from the calendar, the right task list, and the date due task list popup
 - The detail popup must show created date, due date, and current status
 - The detail popup must provide a status toggle action
 
@@ -205,8 +205,8 @@ When the user selects a task from either the calendar view, the right task list,
 4. The user checks due-date-based tasks in the calendar view.
 5. The user checks active tasks in the right-side task list.
 6. The user clicks a future or current date in the calendar.
-7. A date active task list popup opens for the selected date.
-8. The user reviews tasks active on that selected date.
+7. A date due task list popup opens for the selected date.
+8. The user reviews tasks due on that selected date.
 9. The user clicks Add Task in the popup.
 10. The add task popup opens with the selected date as the due date context.
 11. The user saves the task and the application automatically sets Start Date to the save timestamp.
@@ -225,7 +225,7 @@ When the user selects a task from either the calendar view, the right task list,
 
 ### 5.2. Derived Display Conditions
 - Right task list condition: `startDate <= today <= dueDate`
-- Date popup task list condition: `startDate <= selectedDate <= dueDate`
+- Date popup task list condition: `dueDate = selectedDate`
 - Calendar display condition: render only on `dueDate`
 
 ### 5.3. Status Definition
@@ -252,7 +252,7 @@ When the user selects a task from either the calendar view, the right task list,
 - The primary interaction model is a split layout of calendar and active task list
 - The calendar is for due date recognition, not full duration rendering
 - The right-side list is for surfacing tasks currently in progress based on today's date
-- The date popup is for surfacing tasks active on a user-selected date
+- The date popup is for surfacing tasks due on a user-selected date
 - Task detail access must be consistent regardless of which task entry point is used
 - Completed tasks should be visually distinguishable at a glance
 - Task creation should remain minimal and fast

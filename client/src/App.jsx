@@ -151,7 +151,7 @@ function MainApp() {
     .sort((left, right) => left.dueDate.localeCompare(right.dueDate));
   const selectedDateTasks = selectedDate
     ? tasks
-        .filter((task) => task.startDate <= selectedDate && selectedDate <= task.dueDate)
+        .filter((task) => task.dueDate === selectedDate)
         .sort((left, right) => left.dueDate.localeCompare(right.dueDate))
     : [];
 

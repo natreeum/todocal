@@ -7,7 +7,7 @@ function DateTaskPopup({ selectedDate, formattedDate, tasks, onClose, onAddTask,
         <div className="modal-header">
           <div>
             <h2>{formattedDate}</h2>
-            <p className="modal-subtitle">Active Tasks On Selected Date: {selectedDate}</p>
+            <p className="modal-subtitle">Tasks Due On Selected Date: {selectedDate}</p>
           </div>
           <div className="calendar-nav">
             <button className="primary-button" onClick={onAddTask}>Add Task</button>
@@ -16,7 +16,7 @@ function DateTaskPopup({ selectedDate, formattedDate, tasks, onClose, onAddTask,
         </div>
 
         {tasks.length === 0 ? (
-          <div className="empty-state">No active tasks match this selected date.</div>
+          <div className="empty-state">No tasks are due on this selected date.</div>
         ) : (
           <div className="task-popup-list">
             {tasks.map((task) => (

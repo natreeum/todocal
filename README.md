@@ -8,7 +8,7 @@ The app is built around a split dashboard:
 
 - Left: monthly calendar for due-date visualization
 - Right: active task list for tasks where `startDate <= today <= dueDate`
-- Date popup: shows tasks active on a selected date
+- Date popup: shows tasks due on a selected date
 - Task detail popup: shared entry point from calendar, active list, and date popup
 - Admin page: internal account/statistics management at `/adminpage`
 
