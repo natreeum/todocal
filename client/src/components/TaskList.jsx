@@ -6,7 +6,9 @@ function TaskList({ today, tasks, onSelectTask }) {
       <div className="task-panel-header">
         <div>
           <h2>Active Tasks</h2>
-          <p className="modal-subtitle">Today in Range: {today}</p>
+          <p className="modal-subtitle">
+            Today : <strong>{today}</strong>
+          </p>
         </div>
       </div>
 
@@ -20,11 +22,10 @@ function TaskList({ today, tasks, onSelectTask }) {
               className={`task-panel-item ${task.status}`}
               onClick={() => onSelectTask(task)}
             >
-              <div>
-                <strong>{task.taskName}</strong>
-                <small>
-                  Created {task.createdAt} / Due {task.dueDate}
-                </small>
+              <div className="task-panel-copy">
+                <strong className="task-panel-title">{task.taskName}</strong>
+                <small>Created: {task.createdAt}</small>
+                <small>Due: {task.dueDate}</small>
               </div>
               <span className={`status-chip ${task.status}`}>{task.status}</span>
             </button>

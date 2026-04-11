@@ -96,7 +96,7 @@ Provide the TodoCal main workspace with a due-date calendar on the left and an a
 |                                                                                      |
 | +--------------------------------------------------------------+ +-----------------+ |
 | | April                                                        | | Active Tasks    | |
-| | Sun  Mon  Tue  Wed  Thu  Fri  Sat                            | | Today in Range  | |
+| | Sun  Mon  Tue  Wed  Thu  Fri  Sat                            | | Today : **YYYY-MM-DD**  | |
 | | +----+----+----+----+----+----+----+                         | |                 | |
 | | | xx | xx | xx | 1* | 2  | 3  | 4  |                         | | Task A          | |
 | | +----+----+----+----+----+----+----+                         | | ~~Task B~~      | |
@@ -156,7 +156,7 @@ Show tasks that are currently active relative to today.
 ```text
 +---------------------------+
 | Active Tasks              |
-| Today in Range            |
+| Today : **YYYY-MM-DD**            |
 |                           |
 | Task A                    |
 | ~~Task B~~                |
@@ -166,6 +166,24 @@ Show tasks that are currently active relative to today.
 | done -> strike + light    |
 +---------------------------+
 ```
+
+
+### Active Task Item Layout Rule
+- Do not render `task title-created-due` as one inline sentence.
+- Render each item as a compact card or row block.
+- Recommended structure:
+
+```text
++--------------------------------------+
+| Task Title                    status |
+| Created: YYYY-MM-DD                  |
+| Due:     YYYY-MM-DD                  |
++--------------------------------------+
+```
+
+- Task title should be bold or visually strongest.
+- Created and Due dates should be secondary metadata.
+- Status badge should remain easy to scan on the right side.
 
 ## 6. Date Active Task List Popup
 

@@ -112,16 +112,35 @@ It is intended to bridge the gap between product planning and implementation.
 
 ### 4.1. Purpose
 - This panel shows tasks active as of today.
+- Header must display `Today : YYYY-MM-DD`.
+- The `YYYY-MM-DD` value must be bold.
 
 ### 4.2. Filtering Rule
 - Include tasks where `startDate <= today <= dueDate`.
 
 ### 4.3. Task Row Rules
-- Each row displays at least the task title.
+- Each row displays task title, created date, due date, and status.
+- Do not render task title, created date, and due date as a single inline sentence.
+- Use a compact card or row-block layout.
+- Task title must be bold or visually strongest.
+- Created and Due dates must be secondary metadata.
+- Status should be displayed as a right-aligned badge or compact status element.
 - Each row must be clickable.
 - Clicking a task row opens the task detail popup.
 
-### 4.4. Completion Styling
+### 4.4. Active Task Item Layout
+- Recommended structure:
+
+```text
+Task Title                    status
+Created: YYYY-MM-DD
+Due:     YYYY-MM-DD
+```
+
+- This structure is preferred over `Task Title Created YYYY-MM-DD / Due YYYY-MM-DD` in one line.
+- It improves scanability on both desktop and mobile.
+
+### 4.5. Completion Styling
 - `undone`
   - Normal text color
   - No strikethrough
@@ -130,7 +149,7 @@ It is intended to bridge the gap between product planning and implementation.
   - Lighter text color required
   - Visual hierarchy must clearly indicate completion without hiding readability
 
-### 4.5. Empty State
+### 4.6. Empty State
 - If there are no active tasks for today, show an explicit empty-state message.
 - Example intent: `No active tasks for today`.
 

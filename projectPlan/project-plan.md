@@ -68,12 +68,19 @@ The calendar view is used to show tasks based on due date only.
 The right panel is a continuously visible task list for currently active tasks.
 
 - Displayed Information
+  - Header text uses `Today : YYYY-MM-DD`
+  - The `YYYY-MM-DD` date value must be bold
   - Tasks whose date range contains today
   - Task title
+  - Created date
+  - Due date
   - Completion state styling
 - Filtering Rule
   - Include tasks where `startDate <= today <= dueDate`
 - Visual Rule
+  - Task items should use a card or row-block layout, not a single title-created-due inline sentence
+  - Task title must be visually stronger than metadata
+  - Created and Due dates should appear as secondary metadata
   - `undone` tasks use normal emphasis
   - `done` tasks use strikethrough and lighter text color
 - Interaction

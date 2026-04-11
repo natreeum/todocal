@@ -401,13 +401,33 @@ button:disabled {
   padding: 16px 18px;
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 14px;
   border-radius: 18px;
   background: #f8fafc;
   text-align: left;
 }
 
-.task-panel-item.done strong,
+.task-panel-copy {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.task-panel-title {
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.task-panel-copy small {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.task-panel-item.done .task-panel-title,
 .task-panel-item.done small {
   color: #94a3b8;
   text-decoration: line-through;
