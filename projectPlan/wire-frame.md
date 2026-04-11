@@ -168,6 +168,21 @@ Show tasks that are currently active relative to today.
 ```
 
 
+
+### Active Task Sorting Rule
+- Group active tasks by status: `undone` first, then `done`.
+- Sort by `dueDate` ascending within each status group.
+
+```text
+UNDONE
+- Task A  Due: 2026-04-15
+- Task B  Due: 2026-04-28
+
+DONE
+- Task C  Due: 2026-04-20
+- Task D  Due: 2026-05-08
+```
+
 ### Active Task Item Layout Rule
 - Do not render `task title-created-due` as one inline sentence.
 - Render each item as a compact card or row block.
@@ -220,6 +235,13 @@ Show tasks whose due date matches the date selected from the calendar.
 |                                                           |
 +-----------------------------------------------------------+
 ```
+
+
+### Popup Title Rule
+- Use the selected date as the only popup title/context label.
+- Do not render a secondary subtitle such as `Tasks Due On Selected Date`.
+- Do not render an extra divider line only for that removed subtitle.
+- Task list or empty state should appear directly below the title/action row.
 
 ## 7. Add Task Popup
 

@@ -1,13 +1,12 @@
 import React from 'react';
 
-function DateTaskPopup({ selectedDate, formattedDate, tasks, onClose, onAddTask, onSelectTask }) {
+function DateTaskPopup({ formattedDate, tasks, onClose, onAddTask, onSelectTask }) {
   return (
     <div className="backdrop">
       <section className="modal-card">
         <div className="modal-header">
           <div>
             <h2>{formattedDate}</h2>
-            <p className="modal-subtitle">Tasks Due On Selected Date: {selectedDate}</p>
           </div>
           <div className="calendar-nav">
             <button className="primary-button" onClick={onAddTask}>Add Task</button>

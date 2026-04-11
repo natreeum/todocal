@@ -16,6 +16,20 @@ const formatDisplayDate = (value) =>
   }).format(new Date(value));
 
 const todayString = () => new Date().toISOString().split('T')[0];
+const statusRank = {
+  undone: 0,
+  done: 1,
+};
+
+const sortByStatusThenDueDate = (left, right) => {
+  const statusDiff = (statusRank[left.status] ?? 99) - (statusRank[right.status] ?? 99);
+  if (statusDiff !== 0) return statusDiff;
+
+  const dueDateDiff = left.dueDate.localeCompare(right.dueDate);
+  if (dueDateDiff !== 0) return dueDateDiff;
+
+  return left.taskName.localeCompare(right.taskName);
+};
 
 function MainApp() {
   const [user, setUser] = useState(null);
@@ -148,7 +162,7 @@ function MainApp() {
   const today = todayString();
   const activeTasks = tasks
     .filter((task) => task.startDate <= today && today <= task.dueDate)
-    .sort((left, right) => left.dueDate.localeCompare(right.dueDate));
+    .sort(sortByStatusThenDueDate);
   const selectedDateTasks = selectedDate
     ? tasks
         .filter((task) => task.dueDate === selectedDate)
@@ -203,7 +217,6 @@ function MainApp() {
 
           {isDatePopupOpen && selectedDate && (
             <DateTaskPopup
-              selectedDate={selectedDate}
               formattedDate={formatDisplayDate(selectedDate)}
               tasks={selectedDateTasks}
               onClose={() => setIsDatePopupOpen(false)}

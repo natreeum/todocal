@@ -77,6 +77,9 @@ The right panel is a continuously visible task list for currently active tasks.
   - Completion state styling
 - Filtering Rule
   - Include tasks where `startDate <= today <= dueDate`
+- Sorting Rule
+  - Active tasks should be grouped by status: `undone` first, then `done`
+  - Within each status group, tasks should be sorted by `dueDate` ascending
 - Visual Rule
   - Task items should use a card or row-block layout, not a single title-created-due inline sentence
   - Task title must be visually stronger than metadata
@@ -99,6 +102,8 @@ When the user clicks a selectable date in the calendar, a popup appears with the
   - Task item click opens task detail popup
 - Notes
   - This popup is date-context-aware
+  - Do not show a redundant subtitle such as `Tasks Due On Selected Date` under the title
+  - Do not show an extra divider under the title solely for that subtitle
   - The popup is the entry point for adding a task whose `dueDate` is the selected date
 
 ### 2.6. Add Task Popup

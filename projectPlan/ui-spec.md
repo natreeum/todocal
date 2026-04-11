@@ -128,6 +128,13 @@ It is intended to bridge the gap between product planning and implementation.
 - Each row must be clickable.
 - Clicking a task row opens the task detail popup.
 
+
+### 4.3.1. Sorting Rule
+- Active task list should group tasks by status.
+- `undone` tasks appear before `done` tasks.
+- Within each status group, tasks are sorted by `dueDate` ascending.
+- This keeps urgent incomplete work visible while preserving due-date ordering.
+
 ### 4.4. Active Task Item Layout
 - Recommended structure:
 
@@ -180,6 +187,13 @@ Due:     YYYY-MM-DD
 
 ### 5.7. Empty State
 - If no tasks are due on the selected date, show an empty-state message and still keep the `Add Task` action visible.
+
+
+### 6.8. Popup Title Rule
+- Selected date is the only title/context label required.
+- Do not display a redundant subtitle such as `Tasks Due On Selected Date`.
+- Do not render an extra divider line solely for the removed subtitle.
+- Task list or empty state should appear directly below the title/action row.
 
 ## 7. Add Task Popup Spec
 
