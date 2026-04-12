@@ -433,3 +433,30 @@ Welcome **test1**, Have a good day.
   - `Keep your momentum.`
   - `Ready to plan your day?`
   - `Let's get things done.`
+
+
+## 16. Mobile Calendar Display Notes
+- Do not allow task chips to wrap vertically in narrow calendar cells.
+- Use ellipsis for long task titles.
+- Show at most 1-2 task chips per date cell on mobile.
+- Show `+N more` when hidden tasks exist.
+- Do not show persistent selected-date border.
+- Keep today highlight visually distinct.
+
+```text
+Mobile date cell example:
++---------+
+| 11      |
+| ASDF... |
+| +2 more |
++---------+
+```
+
+Alternative compact example:
+```text
++---------+
+| 11      |
+| 3 tasks |
++---------+
+```
+

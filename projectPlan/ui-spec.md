@@ -385,3 +385,18 @@ Due:     YYYY-MM-DD
 - Remove helper text such as `enter your id`
 - Login screen should keep only essential form labels and actions
 
+
+## 17. Mobile Calendar Display Spec
+- Calendar task chips must never wrap into vertical per-character text.
+- Task chip text must use single-line truncation with ellipsis on mobile.
+- Recommended CSS intent:
+  - `white-space: nowrap`
+  - `overflow: hidden`
+  - `text-overflow: ellipsis`
+- On mobile, show at most 1-2 task chips per date cell.
+- If the date has more tasks than the visible limit, show `+N more`.
+- Persistent selected-date border styling must not be applied.
+- Today highlight can use a filled badge or background treatment, but it must not conflict with selected-date interaction.
+- Mobile layout order remains Active Tasks first, then Calendar View.
+- If the calendar cell becomes too narrow, prefer compact summary such as `3 tasks` or `+N more` over full task titles.
+

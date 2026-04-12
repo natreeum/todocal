@@ -15,6 +15,7 @@ function CalendarView({ currentMonth, selectedDate, tasks, onMonthChange, onDate
   const firstDay = new Date(year, month, 1);
   const firstWeekday = firstDay.getDay();
   const monthLabel = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentMonth);
+  const calendarTitle = `${monthLabel} ${year}`;
   const today = formatStorageDate(new Date());
 
   const cells = [];
@@ -39,7 +40,7 @@ function CalendarView({ currentMonth, selectedDate, tasks, onMonthChange, onDate
   return (
     <section className="calendar-card">
       <div className="calendar-toolbar">
-        <h2>{monthLabel}</h2>
+        <h2>{calendarTitle}</h2>
         <div className="calendar-nav">
           <button className="ghost-button" onClick={() => onMonthChange(-1)}>Prev</button>
           <button className="ghost-button" onClick={() => onMonthChange(1)}>Next</button>
@@ -85,6 +86,12 @@ function CalendarView({ currentMonth, selectedDate, tasks, onMonthChange, onDate
                   {task.taskName}
                 </button>
               ))}
+              {cell.dayTasks.length > 3 && (
+                <span className="day-more day-more-desktop">+{cell.dayTasks.length - 3} more</span>
+              )}
+              {cell.dayTasks.length > 2 && (
+                <span className="day-more day-more-mobile">+{cell.dayTasks.length - 2} more</span>
+              )}
             </div>
           </div>
         ))}

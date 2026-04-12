@@ -302,3 +302,16 @@ When the user selects a task from either the calendar view, the right task list,
   - `Keep your momentum.`
   - `Ready to plan your day?`
   - `Let's get things done.`
+
+
+## 13. Mobile Calendar Display Rules
+- Calendar task chips must not wrap vertically on mobile.
+- Long task titles must be displayed as a single line with ellipsis.
+- On mobile, each date cell should show at most 1-2 task chips.
+- If more tasks exist in a date cell, show a compact `+N more` indicator.
+- Date selection must not apply persistent border styling.
+- Today highlight must remain visually distinct from selected-date interaction.
+- Mobile layout must keep Active Tasks before Calendar View.
+- The calendar month label should include year when space allows, for example `April 2026`.
+- Mobile date cells should prioritize readability over showing full task titles.
+
