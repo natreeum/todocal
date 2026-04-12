@@ -816,16 +816,20 @@ button:disabled {
   }
 
   .calendar-grid {
-    gap: 8px;
+    gap: 6px;
   }
 
   .calendar-day {
-    min-height: 100px;
-    padding: 10px;
+    min-width: 0;
+    min-height: 92px;
+    padding: 8px 6px;
+    overflow: hidden;
   }
 
   .day-task-stack {
-    gap: 5px;
+    min-width: 0;
+    gap: 4px;
+    margin-top: 8px;
   }
 
   .day-task-stack .day-pill:nth-of-type(n + 3) {
@@ -833,8 +837,12 @@ button:disabled {
   }
 
   .day-pill {
-    padding: 5px 7px;
-    font-size: 0.68rem;
+    display: block;
+    max-width: 100%;
+    padding: 4px 5px;
+    border-radius: 8px;
+    font-size: 0.64rem;
+    line-height: 1;
   }
 
   .day-more-desktop {
@@ -843,5 +851,9 @@ button:disabled {
 
   .day-more-mobile {
     display: inline-flex;
+    max-width: 100%;
+    padding: 4px 5px;
+    font-size: 0.64rem;
+    line-height: 1;
   }
 }
