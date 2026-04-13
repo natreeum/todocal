@@ -60,6 +60,25 @@ Admins can monitor product usage and task activity.
   - Tasks created today
   - Average tasks per active user
 
+### 3.3. System Monitoring Metrics
+Admins can monitor service-level runtime behavior for development and operations.
+
+- API performance metrics
+  - Average API response time
+  - p95 API response time
+  - Max API response time
+  - Request count by time bucket
+- API status code metrics
+  - `2xx` response count
+  - `4xx` response count
+  - `5xx` response count
+  - Error rate derived from non-`2xx` responses
+- SQL performance metrics
+  - Average SQL query duration
+  - p95 SQL query duration
+  - Max SQL query duration
+  - Query count by time bucket
+
 ## 4. Screen Structure
 
 ### 4.1. Admin Dashboard
@@ -139,12 +158,38 @@ Screen for detailed usage statistics.
   - Daily task creation trend
   - Daily task completion trend
 
+### 4.5. System Monitoring Charts
+Screen section for operational system metrics.
 
-### 4.5. Chart Interaction Rules
+- API response time linear graph
+  - X-axis: time bucket
+  - Y-axis: response time in milliseconds
+  - Lines: average, p95, max
+  - Recommended default range: recent 1 hour or recent 24 hours
+- Status code distribution linear graph
+  - X-axis: time bucket
+  - Y-axis: response count
+  - Lines: `2xx`, `4xx`, `5xx`
+  - `5xx` line should use a visually strong warning/error color
+- SQL query duration linear graph
+  - X-axis: time bucket
+  - Y-axis: query duration in milliseconds
+  - Lines: average, p95, max
+  - Slow query spikes should be visually easy to identify
+- Shared chart controls
+  - Time range selector
+  - Refresh button
+  - Optional auto-refresh toggle
+  - Empty state when no monitoring samples exist
+
+### 4.6. Chart Interaction Rules
 - Statistics charts must show a tooltip on mouse hover.
 - Tooltip must display the hovered date and metric value.
 - This applies to DAU, MAU, task creation, and task completion charts.
 - Tooltip values must be easy to read and must not obscure the chart point being inspected.
+- System monitoring linear graphs must also show a tooltip on hover.
+- Monitoring chart tooltips must display the time bucket, series name, and metric value.
+- Multi-line monitoring charts must make each line identifiable through color and legend labels.
 
 ## 5. Metric Definitions
 
@@ -172,6 +217,26 @@ Screen for detailed usage statistics.
 ### 5.6. Overdue Task Count
 - Count of tasks where `dueDate < today` and `status = undone`.
 
+### 5.7. API Response Time
+- Duration between receiving an HTTP request and sending the response.
+- Unit: milliseconds.
+- The metric should be grouped by time bucket for linear graph rendering.
+- The graph should include average, p95, and max response time.
+
+### 5.8. Status Code Distribution
+- Count of API responses grouped by status code family.
+- Required status families:
+  - `2xx`
+  - `4xx`
+  - `5xx`
+- The metric should be grouped by time bucket for linear graph rendering.
+
+### 5.9. SQL Query Duration
+- Duration between starting a SQL query and receiving its result or error.
+- Unit: milliseconds.
+- The metric should be grouped by time bucket for linear graph rendering.
+- The graph should include average, p95, and max query duration.
+
 ## 6. Data Requirements
 
 ### 6.1. User Data
@@ -198,6 +263,26 @@ Activity logs are recommended for accurate DAU and MAU calculation.
 - `eventType`
 - `createdAt`
 - `metadata`
+
+### 6.4. API Monitoring Sample Data
+API monitoring samples are recommended for API response time and status code graphs.
+
+- `id`
+- `method`
+- `path`
+- `statusCode`
+- `durationMs`
+- `createdAt`
+
+### 6.5. SQL Monitoring Sample Data
+SQL monitoring samples are recommended for query duration graphs.
+
+- `id`
+- `operation`
+- `tableName`
+- `durationMs`
+- `createdAt`
+- `isError`
 
 ## 7. Admin UX Rules
 

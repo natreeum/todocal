@@ -716,6 +716,63 @@ button:disabled {
   font-size: 0.9rem;
 }
 
+.admin-line-card {
+  min-width: 0;
+}
+
+.admin-line-chart {
+  position: relative;
+  padding: 12px;
+  border-radius: 20px;
+  background:
+    linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    #f8fafc;
+  background-size: 100% 25%, 12.5% 100%, auto;
+  overflow: hidden;
+}
+
+.admin-line-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.admin-line-axis {
+  stroke: rgba(71, 85, 105, 0.35);
+  stroke-width: 1.5;
+}
+
+.admin-line-series {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 8px 10px rgba(15, 23, 42, 0.08));
+}
+
+.admin-line-point {
+  cursor: pointer;
+  outline: none;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.admin-line-point:hover,
+.admin-line-point:focus {
+  r: 6;
+  filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.2));
+}
+
+.admin-line-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .admin-panel {
   display: grid;
   gap: 18px;

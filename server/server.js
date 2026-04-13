@@ -7,6 +7,9 @@ const app = express();
 const port = 3001;
 const PASSWORD_HASH_PREFIX = 'scrypt';
 const PASSWORD_KEY_LENGTH = 64;
+const METRIC_RETENTION_MS = 24 * 60 * 60 * 1000;
+const MONITORING_BUCKET_MS = 5 * 60 * 1000;
+const MONITORING_WINDOW_MS = 60 * 60 * 1000;
 
 const TASK_STATUS = {
     DONE: 'done',
@@ -23,6 +26,11 @@ const USER_STATUS = {
     INACTIVE: 'inactive',
 };
 
+const monitoringMetrics = {
+    api: [],
+    sql: [],
+};
+
 const todayString = () => new Date().toISOString().split('T')[0];
 const addDaysString = (dateString, days) => {
     const date = new Date(`${dateString}T00:00:00`);
@@ -32,6 +40,128 @@ const addDaysString = (dateString, days) => {
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+    const start = process.hrtime.bigint();
+
+    res.on('finish', () => {
+        recordApiMetric({
+            method: req.method,
+            path: req.route?.path || req.path,
+            statusCode: res.statusCode,
+            durationMs: getDurationMs(start),
+            createdAt: Date.now(),
+        });
+    });
+
+    next();
+});
+
+function getDurationMs(start) {
+    return Number(process.hrtime.bigint() - start) / 1_000_000;
+}
+
+function pruneMetrics(samples) {
+    const cutoff = Date.now() - METRIC_RETENTION_MS;
+    while (samples.length > 0 && samples[0].createdAt < cutoff) {
+        samples.shift();
+    }
+}
+
+function recordApiMetric(sample) {
+    monitoringMetrics.api.push(sample);
+    pruneMetrics(monitoringMetrics.api);
+}
+
+function recordSqlMetric(sample) {
+    monitoringMetrics.sql.push(sample);
+    pruneMetrics(monitoringMetrics.sql);
+}
+
+function getStatusFamily(statusCode) {
+    if (statusCode >= 200 && statusCode < 300) return 'success';
+    if (statusCode >= 400 && statusCode < 500) return 'clientError';
+    if (statusCode >= 500) return 'serverError';
+    return 'other';
+}
+
+function getSqlOperation(sql) {
+    return normalizeInput(sql).split(/\s+/)[0]?.toUpperCase() || 'UNKNOWN';
+}
+
+function getSqlTableName(sql) {
+    const normalizedSql = normalizeInput(sql);
+    const match = normalizedSql.match(/\b(?:FROM|INTO|UPDATE|TABLE)\s+([A-Za-z0-9_]+)/i);
+    return match ? match[1] : 'unknown';
+}
+
+function percentile(values, percentileValue) {
+    if (values.length === 0) return 0;
+
+    const sortedValues = [...values].sort((left, right) => left - right);
+    const index = Math.ceil((percentileValue / 100) * sortedValues.length) - 1;
+    return sortedValues[Math.max(0, Math.min(sortedValues.length - 1, index))];
+}
+
+function roundMetric(value) {
+    return Math.round(value * 100) / 100;
+}
+
+function createMonitoringBuckets() {
+    const now = Date.now();
+    const end = Math.ceil(now / MONITORING_BUCKET_MS) * MONITORING_BUCKET_MS;
+    const start = end - MONITORING_WINDOW_MS;
+
+    return Array.from({ length: MONITORING_WINDOW_MS / MONITORING_BUCKET_MS }, (_, index) => {
+        const bucketStart = start + (index * MONITORING_BUCKET_MS);
+        return {
+            bucketStart,
+            bucketEnd: bucketStart + MONITORING_BUCKET_MS,
+            label: new Date(bucketStart).toISOString().slice(11, 16),
+        };
+    });
+}
+
+function summarizeDurationSamples(samples, buckets) {
+    return buckets.map((bucket) => {
+        const bucketSamples = samples.filter((sample) => (
+            sample.createdAt >= bucket.bucketStart && sample.createdAt < bucket.bucketEnd
+        ));
+        const durations = bucketSamples.map((sample) => sample.durationMs);
+        const totalDuration = durations.reduce((sum, value) => sum + value, 0);
+
+        return {
+            bucket: bucket.bucketStart,
+            label: bucket.label,
+            count: durations.length,
+            avg: durations.length === 0 ? 0 : roundMetric(totalDuration / durations.length),
+            p95: roundMetric(percentile(durations, 95)),
+            max: roundMetric(durations.length === 0 ? 0 : Math.max(...durations)),
+        };
+    });
+}
+
+function summarizeStatusSamples(samples, buckets) {
+    return buckets.map((bucket) => {
+        const point = {
+            bucket: bucket.bucketStart,
+            label: bucket.label,
+            success: 0,
+            clientError: 0,
+            serverError: 0,
+        };
+
+        samples
+            .filter((sample) => sample.createdAt >= bucket.bucketStart && sample.createdAt < bucket.bucketEnd)
+            .forEach((sample) => {
+                const family = getStatusFamily(sample.statusCode);
+                if (Object.prototype.hasOwnProperty.call(point, family)) {
+                    point[family] += 1;
+                }
+            });
+
+        return point;
+    });
+}
 
 function normalizeInput(value) {
     return typeof value === 'string' ? value.trim() : '';
@@ -107,6 +237,32 @@ const db = new sqlite3.Database('./todo.db', (err) => {
         selectedDate TEXT,
         FOREIGN KEY (userId) REFERENCES users(id)
     )`, ensureTaskSchema);
+});
+
+['get', 'all', 'run'].forEach((methodName) => {
+    const originalMethod = db[methodName].bind(db);
+
+    db[methodName] = (sql, ...args) => {
+        const start = process.hrtime.bigint();
+        const callbackIndex = args.findIndex((arg) => typeof arg === 'function');
+
+        if (callbackIndex !== -1) {
+            const callback = args[callbackIndex];
+            args[callbackIndex] = function instrumentedSqlCallback(...callbackArgs) {
+                recordSqlMetric({
+                    operation: getSqlOperation(sql),
+                    tableName: getSqlTableName(sql),
+                    durationMs: getDurationMs(start),
+                    createdAt: Date.now(),
+                    isError: Boolean(callbackArgs[0]),
+                });
+
+                return callback.apply(this, callbackArgs);
+            };
+        }
+
+        return originalMethod(sql, ...args);
+    };
 });
 
 function ensureUserSchema() {
@@ -534,6 +690,21 @@ app.get('/admin/trends', requireAdmin, (req, res) => {
     };
 
     loadDay(0);
+});
+
+app.get('/admin/monitoring', requireAdmin, (req, res) => {
+    const buckets = createMonitoringBuckets();
+    const windowStart = buckets[0]?.bucketStart || 0;
+    const apiSamples = monitoringMetrics.api.filter((sample) => sample.createdAt >= windowStart);
+    const sqlSamples = monitoringMetrics.sql.filter((sample) => sample.createdAt >= windowStart);
+
+    res.status(200).json({
+        bucketSizeMinutes: MONITORING_BUCKET_MS / 60_000,
+        windowMinutes: MONITORING_WINDOW_MS / 60_000,
+        apiResponseTime: summarizeDurationSamples(apiSamples, buckets),
+        statusCodes: summarizeStatusSamples(apiSamples, buckets),
+        sqlQueryDuration: summarizeDurationSamples(sqlSamples, buckets),
+    });
 });
 
 app.patch('/admin/users/:userId/status', requireAdmin, (req, res) => {

@@ -14,6 +14,14 @@ const EMPTY_SUMMARY = {
   overdueTasks: 0,
 };
 
+const EMPTY_MONITORING = {
+  bucketSizeMinutes: 5,
+  windowMinutes: 60,
+  apiResponseTime: [],
+  statusCodes: [],
+  sqlQueryDuration: [],
+};
+
 function TrendChart({ title, points, series }) {
   const [tooltip, setTooltip] = useState(null);
   const maxValue = Math.max(
@@ -74,6 +82,96 @@ function TrendChart({ title, points, series }) {
   );
 }
 
+function LinearGraph({ title, subtitle, points, series, unit = '' }) {
+  const [tooltip, setTooltip] = useState(null);
+  const chartWidth = 680;
+  const chartHeight = 220;
+  const padding = 28;
+  const maxValue = Math.max(
+    1,
+    ...points.flatMap((point) => series.map((item) => point[item.key] || 0)),
+  );
+  const xStep = points.length > 1 ? (chartWidth - (padding * 2)) / (points.length - 1) : 0;
+  const getX = (index) => padding + (index * xStep);
+  const getY = (value) => chartHeight - padding - (((value || 0) / maxValue) * (chartHeight - (padding * 2)));
+
+  return (
+    <article className="admin-chart-card admin-line-card">
+      <div>
+        <h3>{title}</h3>
+        <p className="modal-subtitle">{subtitle}</p>
+      </div>
+
+      {points.length === 0 ? (
+        <div className="empty-state">No monitoring samples yet.</div>
+      ) : (
+        <div className="admin-line-chart">
+          <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img" aria-label={title}>
+            <line className="admin-line-axis" x1={padding} y1={chartHeight - padding} x2={chartWidth - padding} y2={chartHeight - padding} />
+            <line className="admin-line-axis" x1={padding} y1={padding} x2={padding} y2={chartHeight - padding} />
+            {series.map((item) => {
+              const pathPoints = points
+                .map((point, index) => `${getX(index)},${getY(point[item.key])}`)
+                .join(' ');
+
+              return (
+                <polyline
+                  key={item.key}
+                  className={`admin-line-series ${item.key}`}
+                  points={pathPoints}
+                  style={{ stroke: item.color }}
+                />
+              );
+            })}
+            {points.map((point, index) => series.map((item) => (
+              <circle
+                key={`${point.bucket}-${item.key}`}
+                className="admin-line-point"
+                cx={getX(index)}
+                cy={getY(point[item.key])}
+                r="4"
+                style={{ fill: item.color }}
+                onMouseEnter={() => setTooltip({
+                  label: point.label,
+                  series: item.label,
+                  value: point[item.key] || 0,
+                })}
+                onMouseLeave={() => setTooltip(null)}
+                onFocus={() => setTooltip({
+                  label: point.label,
+                  series: item.label,
+                  value: point[item.key] || 0,
+                })}
+                onBlur={() => setTooltip(null)}
+                tabIndex={0}
+              />
+            )))}
+          </svg>
+          <div className="admin-line-labels">
+            <span>{points[0]?.label}</span>
+            <span>{points[points.length - 1]?.label}</span>
+          </div>
+          {tooltip && (
+            <div className="admin-chart-tooltip">
+              <strong>{tooltip.label}</strong>
+              <span>{tooltip.series}: {tooltip.value}{unit}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="admin-chart-legend">
+        {series.map((item) => (
+          <span key={item.key}>
+            <i className="admin-legend-dot" style={{ background: item.color }} />
+            {item.label}
+          </span>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function AdminPage() {
   const [admin, setAdmin] = useState(null);
   const [username, setUsername] = useState('');
@@ -81,6 +179,7 @@ function AdminPage() {
   const [message, setMessage] = useState('');
   const [summary, setSummary] = useState(EMPTY_SUMMARY);
   const [trends, setTrends] = useState([]);
+  const [monitoring, setMonitoring] = useState(EMPTY_MONITORING);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -106,7 +205,7 @@ function AdminPage() {
         searchParams.set('status', statusFilter);
       }
 
-      const [summaryResponse, usersResponse, trendsResponse] = await Promise.all([
+      const [summaryResponse, usersResponse, trendsResponse, monitoringResponse] = await Promise.all([
         fetch(apiUrl('/admin/summary'), {
           headers: adminHeaders(nextAdmin),
         }),
@@ -116,9 +215,12 @@ function AdminPage() {
         fetch(apiUrl('/admin/trends'), {
           headers: adminHeaders(nextAdmin),
         }),
+        fetch(apiUrl('/admin/monitoring'), {
+          headers: adminHeaders(nextAdmin),
+        }),
       ]);
 
-      if (!summaryResponse.ok || !usersResponse.ok || !trendsResponse.ok) {
+      if (!summaryResponse.ok || !usersResponse.ok || !trendsResponse.ok || !monitoringResponse.ok) {
         setMessage('Admin data request failed. Check admin access.');
         return;
       }
@@ -126,6 +228,7 @@ function AdminPage() {
       setSummary(await summaryResponse.json());
       setUsers(await usersResponse.json());
       setTrends(await trendsResponse.json());
+      setMonitoring(await monitoringResponse.json());
     } catch (error) {
       console.error('Admin data error:', error);
       setMessage('Network error while loading admin data.');
@@ -360,6 +463,49 @@ function AdminPage() {
               { key: 'tasksCompleted', label: 'Completed' },
             ]}
           />
+        </section>
+
+        <section className="admin-panel">
+          <div>
+            <h2>System Monitoring</h2>
+            <p className="modal-subtitle">
+              Runtime metrics for the recent {monitoring.windowMinutes} minutes, bucketed by {monitoring.bucketSizeMinutes} minutes.
+            </p>
+          </div>
+          <div className="admin-chart-grid">
+            <LinearGraph
+              title="API Response Time"
+              subtitle="Average, p95, and max latency"
+              points={monitoring.apiResponseTime}
+              unit="ms"
+              series={[
+                { key: 'avg', label: 'Avg', color: '#0f766e' },
+                { key: 'p95', label: 'p95', color: '#f97316' },
+                { key: 'max', label: 'Max', color: '#dc2626' },
+              ]}
+            />
+            <LinearGraph
+              title="Status Code Distribution"
+              subtitle="Response count by status family"
+              points={monitoring.statusCodes}
+              series={[
+                { key: 'success', label: '2xx', color: '#059669' },
+                { key: 'clientError', label: '4xx', color: '#f97316' },
+                { key: 'serverError', label: '5xx', color: '#dc2626' },
+              ]}
+            />
+            <LinearGraph
+              title="SQL Query Duration"
+              subtitle="Average, p95, and max query duration"
+              points={monitoring.sqlQueryDuration}
+              unit="ms"
+              series={[
+                { key: 'avg', label: 'Avg', color: '#2563eb' },
+                { key: 'p95', label: 'p95', color: '#7c3aed' },
+                { key: 'max', label: 'Max', color: '#be123c' },
+              ]}
+            />
+          </div>
         </section>
 
         <section className="admin-panel">
