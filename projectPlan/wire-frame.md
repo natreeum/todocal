@@ -504,3 +504,14 @@ Alternative compact example:
 +---------+
 ```
 
+
+## 17. Header Actions Notes
+- Header action area should show `Refresh` to the left of `Add Task`.
+
+```text
+TodoCal                                   [ Refresh ] [ Add Task ]
+Welcome **test1**, Have a good day.
+```
+
+- `Refresh` reloads the latest task data without changing the current calendar range.
+

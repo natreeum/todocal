@@ -327,6 +327,14 @@ When the user selects a task from either the calendar view, the right task list,
   - `Let's get things done.`
 
 
+
+### 12.1. Header Actions
+- Header action area should include a `Refresh` button and an `Add Task` button.
+- `Refresh` button must be placed to the left of `Add Task`.
+- Clicking `Refresh` reloads the latest task data for the current view.
+- Refresh should update Active Tasks, Calendar View, and currently open date task list if applicable.
+- Refresh must not reset the current calendar navigation range unless explicitly required later.
+
 ## 13. Mobile Calendar Display Rules
 - Calendar task chips must not wrap vertically on mobile.
 - Long task titles must be displayed as a single line with ellipsis.

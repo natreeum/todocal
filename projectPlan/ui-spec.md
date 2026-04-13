@@ -401,6 +401,15 @@ Due:     YYYY-MM-DD
   - `Ready to plan your day?`
   - `Let's get things done.`
 
+
+### 15.1. Header Actions
+- Header action area must include `Refresh` and `Add Task`.
+- `Refresh` must be positioned to the left of `Add Task`.
+- `Refresh` reloads current task data from the server.
+- Refresh result must update Active Tasks and Calendar View.
+- If a date due task list popup is open, refresh should also update that popup's task list.
+- Refresh must preserve the current calendar range and should not navigate back to today.
+
 ## 16. Login Copy Spec
 - Login screen title must display `TodoCal`
 - Sign-up screen title must display `TodoCal : SignUp`

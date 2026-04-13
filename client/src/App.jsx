@@ -254,6 +254,7 @@ function MainApp() {
               </p>
             </div>
             <div className="calendar-nav">
+              <button className="ghost-button" onClick={() => fetchTasks()}>Refresh</button>
               <button className="primary-button" onClick={() => setIsAddModalOpen(true)}>Add Task</button>
               <button className="ghost-button" onClick={handleLogout}>Logout</button>
             </div>
