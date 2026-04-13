@@ -142,8 +142,10 @@ Define how tasks and date selection behave in the calendar area.
 
 
 ### Calendar Visible Range Rule
+- Calendar navigation includes `Prev`, `Today`, and `Next` buttons.
 - The first visible row should be the week containing today.
 - Calendar view shows 4 weeks total from that first row.
+- `Today` returns to the 4-week range starting from the week containing today.
 - Past weeks before the current week are hidden.
 - Past dates inside the first visible week can stay visible only for weekday alignment and must remain disabled.
 

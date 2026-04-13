@@ -38,6 +38,7 @@ The main screen is a split dashboard composed of a calendar view and a task list
 - Calendar Area
   - Product name `TodoCal` displayed as the main header
   - Current month label displayed near the calendar area
+  - Calendar navigation includes `Prev`, `Today`, and `Next` buttons
   - Weekday header row displayed above the calendar body
   - Weekday order: Sun, Mon, Tue, Wed, Thu, Fri, Sat
   - Date cells arranged in a monthly grid
@@ -72,6 +73,7 @@ The calendar view is used to show tasks based on due date only.
 - Calendar view should not show unnecessary past weeks by default.
 - The week containing today must be the first visible row in the calendar view.
 - Calendar view shows 4 weeks total starting from the week containing today.
+- Clicking the `Today` button returns the calendar to the 4-week window starting from the week containing today.
 - Past weeks before the current week are hidden from the default calendar viewport.
 - Dates earlier than today within the first visible week can remain visible for weekday alignment but must stay disabled/non-selectable.
 - This improves focus by prioritizing today and the next 4-week due-date window.

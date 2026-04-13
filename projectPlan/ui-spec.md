@@ -74,6 +74,7 @@ It is intended to bridge the gap between product planning and implementation.
 
 ### 3.1. Calendar Structure
 - Display the current month label at the top-left.
+- Display calendar navigation buttons near the month label: `Prev`, `Today`, `Next`.
 - Display weekday headers in this order: `Sun`, `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`.
 - Render dates in a monthly grid.
 - Calendar tasks are rendered only on the `dueDate` cell.
@@ -113,6 +114,7 @@ It is intended to bridge the gap between product planning and implementation.
 - Calendar view should start from the week that contains today.
 - The current week must be rendered as the first visible row.
 - Render 4 weeks total starting from the current week.
+- `Today` button resets the visible calendar range to the current week plus the next 3 weeks.
 - Weeks before the current week should not be shown in the default calendar viewport.
 - Past dates that remain inside the first visible week for weekday alignment must be disabled and non-selectable.
 - This rule applies especially to the current/default calendar view.

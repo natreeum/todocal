@@ -110,6 +110,14 @@ function MainApp() {
     setCurrentMonth((prevMonth) => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + offset, 1));
   };
 
+  const handleTodaySelect = () => {
+    const todayDate = new Date();
+    setCurrentMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
+    setSelectedDate(null);
+    setIsDatePopupOpen(false);
+    setDraftDueDate(todayString());
+  };
+
   const handleCreateTask = async ({ taskName, dueDate }) => {
     try {
       const response = await fetch(apiUrl('/tasks'), {
@@ -257,6 +265,7 @@ function MainApp() {
               selectedDate={selectedDate}
               tasks={tasks}
               onMonthChange={handleMonthChange}
+              onTodaySelect={handleTodaySelect}
               onDateSelect={handleDateSelect}
               onTaskSelect={setActiveTask}
             />

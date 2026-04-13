@@ -10,7 +10,15 @@ const formatStorageDate = (value) => {
   return `${year}-${month}-${day}`;
 };
 
-function CalendarView({ currentMonth, selectedDate, tasks, onMonthChange, onDateSelect, onTaskSelect }) {
+function CalendarView({
+  currentMonth,
+  selectedDate,
+  tasks,
+  onMonthChange,
+  onTodaySelect,
+  onDateSelect,
+  onTaskSelect,
+}) {
   const year = currentMonth.getFullYear();
   const month = currentMonth.getMonth();
   const firstDay = new Date(year, month, 1);
@@ -50,6 +58,7 @@ function CalendarView({ currentMonth, selectedDate, tasks, onMonthChange, onDate
         <h2>{calendarTitle}</h2>
         <div className="calendar-nav">
           <button className="ghost-button" onClick={() => onMonthChange(-1)}>Prev</button>
+          <button className="ghost-button" onClick={onTodaySelect}>Today</button>
           <button className="ghost-button" onClick={() => onMonthChange(1)}>Next</button>
         </div>
       </div>
