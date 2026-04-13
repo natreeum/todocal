@@ -108,7 +108,15 @@ It is intended to bridge the gap between product planning and implementation.
 - Date click and task click are separate actions.
 - Past dates ignore click actions.
 
-## 5. Right Task List Spec
+
+### 4.5. Initial Visible Calendar Range
+- Calendar view should start from the week that contains today.
+- The current week must be rendered as the first visible row.
+- Render 4 weeks total starting from the current week.
+- Weeks before the current week should not be shown in the default calendar viewport.
+- Past dates that remain inside the first visible week for weekday alignment must be disabled and non-selectable.
+- This rule applies especially to the current/default calendar view.
+
 
 ### 4.1. Purpose
 - This panel shows tasks active as of today.
@@ -256,6 +264,7 @@ Due:     YYYY-MM-DD
 
 ### 9.4. Actions
 - `Status Toggle`
+- `Edit Task`
 - `Delete Task`
 
 ### 9.5. Shared Behavior Rule
@@ -292,6 +301,18 @@ Due:     YYYY-MM-DD
 - Delete confirmation popup is a secondary blocking layer above task detail.
 - Popup close behavior should return the user to the previous visible context.
 
+
+
+### 9.6. Edit Task Rule
+- Task detail popup must provide an `Edit Task` action.
+- Editable fields are `Task Name` and `Due Date` only.
+- `Created` must be read-only.
+- `startDate` must not be shown or edited in the detail edit flow.
+- `Status` must be changed through the status toggle, not through the edit form.
+- Due date input must block dates before today.
+- Save action must validate required fields before submitting.
+- Cancel action must discard unsaved edits and return to read-only task detail view.
+- After a successful save, task detail, active task list, date popup, and calendar task chips must reflect the updated data.
 
 ### 9.6. Status Toggle Rule
 - Task status must be controlled by a toggle-style UI

@@ -1,6 +1,7 @@
 import React from 'react';
 
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const visibleWeekCount = 4;
 
 const formatStorageDate = (value) => {
   const year = value.getFullYear();
@@ -16,13 +17,19 @@ function CalendarView({ currentMonth, selectedDate, tasks, onMonthChange, onDate
   const firstWeekday = firstDay.getDay();
   const monthLabel = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentMonth);
   const calendarTitle = `${monthLabel} ${year}`;
-  const today = formatStorageDate(new Date());
+  const todayDate = new Date();
+  const today = formatStorageDate(todayDate);
+  const isCurrentCalendarMonth = todayDate.getFullYear() === year && todayDate.getMonth() === month;
+  const firstVisibleDate = isCurrentCalendarMonth
+    ? new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - todayDate.getDay())
+    : new Date(year, month, 1 - firstWeekday);
+  const visibleDayCount = visibleWeekCount * weekdays.length;
 
   const cells = [];
 
-  for (let index = 0; index < 42; index += 1) {
-    const dayOffset = index - firstWeekday;
-    const cellDate = new Date(year, month, dayOffset + 1);
+  for (let index = 0; index < visibleDayCount; index += 1) {
+    const cellDate = new Date(firstVisibleDate);
+    cellDate.setDate(firstVisibleDate.getDate() + index);
     const storageDate = formatStorageDate(cellDate);
     const isCurrentMonth = cellDate.getMonth() === month;
     const isPastDate = storageDate < today;

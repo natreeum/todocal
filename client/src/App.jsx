@@ -16,7 +16,13 @@ const formatDisplayDate = (value) =>
     year: 'numeric',
   }).format(new Date(value));
 
-const todayString = () => new Date().toISOString().split('T')[0];
+const todayString = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = `${today.getMonth() + 1}`.padStart(2, '0');
+  const day = `${today.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 const headerMessages = [
   'Have a good day.',
   "Let's make today productive.",
@@ -157,6 +163,40 @@ function MainApp() {
     }
   };
 
+  const handleUpdateTask = async (task, { taskName, dueDate }) => {
+    try {
+      const response = await fetch(apiUrl(`/tasks/${task.id}`), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          taskName,
+          dueDate,
+          status: task.status,
+          selectedDate: dueDate,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update task');
+        return false;
+      }
+
+      await fetchTasks();
+      setActiveTask((prevTask) => (prevTask ? {
+        ...prevTask,
+        taskName,
+        dueDate,
+        selectedDate: dueDate,
+      } : prevTask));
+      return true;
+    } catch (error) {
+      console.error('Network error:', error);
+      return false;
+    }
+  };
+
   const handleDeleteTask = async (taskId) => {
     try {
       const response = await fetch(apiUrl(`/tasks/${taskId}`), {
@@ -254,9 +294,12 @@ function MainApp() {
 
           {activeTask && (
             <TaskDetailModal
+              key={activeTask.id}
               task={activeTask}
+              minDueDate={today}
               onClose={() => setActiveTask(null)}
               onToggleStatus={() => handleToggleStatus(activeTask)}
+              onSave={(updates) => handleUpdateTask(activeTask, updates)}
               onDelete={() => setIsDeleteConfirmOpen(true)}
             />
           )}

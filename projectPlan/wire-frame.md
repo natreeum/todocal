@@ -140,7 +140,20 @@ Define how tasks and date selection behave in the calendar area.
 ### Interaction
 - Clicking any task chip opens the task detail popup
 
-## 5. Right Task List Panel
+
+### Calendar Visible Range Rule
+- The first visible row should be the week containing today.
+- Calendar view shows 4 weeks total from that first row.
+- Past weeks before the current week are hidden.
+- Past dates inside the first visible week can stay visible only for weekday alignment and must remain disabled.
+
+```text
+If today is 2026-04-13:
+First visible row starts with the week containing 2026-04-13.
+Show that row plus the next 3 rows, for 4 visible weeks total.
+Rows before that week are not displayed.
+```
+
 
 ### Purpose
 Show tasks that are currently active relative to today.
@@ -338,12 +351,14 @@ Present the full metadata of a selected task from any entry point.
 - Field: `Status`
 - Toggle: `Undone | Done`
 - Toggle colors: `Undone` and `Done` must be visually distinct
+- Button: `Edit Task`
 - Button: `Delete Task`
 
 ### User Actions
 - Inspect task information
 - Check whether the task is `done` or `undone`
 - Toggle between `Undone` and `Done` to update the task state
+- Click `Edit Task` to edit task title and due date
 - Click `Delete Task` to open deletion confirmation
 
 ### Entry Points
@@ -362,9 +377,36 @@ Present the full metadata of a selected task from any entry point.
 | Due Date: YYYY.MM.DD                              |
 | Status  : undone                                  |
 |                                                   |
-|             [ Undone | Done ] [ Delete Task ]     |
+|        [ Undone | Done ] [ Edit ] [ Delete ]      |
 |             colors: undone != done                 |
 |                                                   |
++---------------------------------------------------+
+```
+
+
+## 10. Task Detail Edit Mode
+
+### Purpose
+Allow users to edit task title and due date from the task detail popup.
+
+### Editable Fields
+- Task title
+- Due date
+
+### Read-only Fields
+- Created
+- Status is controlled by the status toggle
+- Start Date is not shown because it duplicates Created
+
+### ASCII Wireframe
+```text
++---------------------------------------------------+
+| Edit Task                                         |
+|                                                   |
+| Task Title : [______________________________]     |
+| Due Date   : [ YYYY-MM-DD ]                       |
+|                                                   |
+|                         [ Cancel ] [ Save ]       |
 +---------------------------------------------------+
 ```
 

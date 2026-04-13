@@ -67,6 +67,16 @@ The calendar view is used to show tasks based on due date only.
   - The calendar acts as a due date visualization layer
   - Duration tracking is handled logically by task data, not by multi-day rendering in the calendar
 
+
+### 2.3.1. Calendar Initial Visible Range
+- Calendar view should not show unnecessary past weeks by default.
+- The week containing today must be the first visible row in the calendar view.
+- Calendar view shows 4 weeks total starting from the week containing today.
+- Past weeks before the current week are hidden from the default calendar viewport.
+- Dates earlier than today within the first visible week can remain visible for weekday alignment but must stay disabled/non-selectable.
+- This improves focus by prioritizing today and the next 4-week due-date window.
+
+
 ### 2.4. Right Task List Panel
 The right panel is a continuously visible task list for currently active tasks.
 
@@ -133,6 +143,7 @@ When the user selects a task from either the calendar view, the right task list,
   - Status
 - Actions
   - Status toggle
+  - Edit Task button
   - Delete Task button
 - Status Values
   - done
@@ -205,6 +216,16 @@ When the user selects a task from either the calendar view, the right task list,
 - Changing the toggle updates the task status
 - Completed task styling must update after the status changes
 - Recommended color intent: `undone` uses an attention/active color, and `done` uses a success/completed color
+
+
+### 3.9. Task Editing
+- Users can edit a task from the task detail popup.
+- Editable fields are limited to `task title` and `dueDate`.
+- `Created` and `startDate` are not editable.
+- `status` is changed through the status toggle, not the edit form.
+- Due date editing must follow the same date rule as task creation: past dates are not selectable.
+- Saving edits must update the task detail popup and all visible task lists/calendar cells.
+- If `dueDate` changes, the task must move to the new due date cell in the calendar.
 
 ## 4. User Flow
 1. The user opens the login screen.
