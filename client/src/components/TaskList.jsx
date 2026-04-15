@@ -24,7 +24,6 @@ function TaskList({ today, tasks, onSelectTask }) {
             >
               <div className="task-panel-copy">
                 <strong className="task-panel-title">{task.taskName}</strong>
-                <small>Created: {task.createdAt}</small>
                 <small>Due: {task.dueDate}</small>
               </div>
               <span className={`status-chip ${task.status}`}>{task.status}</span>

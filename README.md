@@ -76,11 +76,10 @@ Recommended task item layout:
 
 ```text
 Task Title                    status
-Created: YYYY-MM-DD
 Due:     YYYY-MM-DD
 ```
 
-Avoid rendering task title, created date, and due date as one inline sentence.
+Avoid rendering task title and due date as one inline sentence.
 
 ## Calendar Rules
 

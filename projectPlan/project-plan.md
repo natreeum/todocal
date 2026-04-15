@@ -87,7 +87,6 @@ The right panel is a continuously visible task list for currently active tasks.
   - The `YYYY-MM-DD` date value must be bold
   - Tasks whose date range contains today
   - Task title
-  - Created date
   - Due date
   - Completion state styling
 - Filtering Rule
@@ -98,7 +97,7 @@ The right panel is a continuously visible task list for currently active tasks.
 - Visual Rule
   - Task items should use a card or row-block layout, not a single title-created-due inline sentence
   - Task title must be visually stronger than metadata
-  - Created and Due dates should appear as secondary metadata
+  - Due date should appear as secondary metadata
   - `undone` tasks use normal emphasis
   - `done` tasks use strikethrough and lighter text color
 - Interaction
@@ -290,7 +289,7 @@ When the user selects a task from either the calendar view, the right task list,
 - Past dates must be blocked from selection both in the calendar and in due date input
 
 ## 9. Open Design Decisions
-- Whether the right-side task list and the date popup task list should be sorted by due date, created date, or status priority should be defined during implementation
+- Whether the right-side task list and the date popup task list need additional sorting beyond status grouping and due date ascending should be defined during implementation
 - Whether the add task action is placed only inside the date popup or also globally on the main screen should be decided during UI implementation
 - Whether the status change in the detail popup is implemented as a toggle button or explicit `done / undone` selection can be finalized during implementation
 

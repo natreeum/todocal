@@ -214,13 +214,12 @@ DONE
 ```text
 +--------------------------------------+
 | Task Title                    status |
-| Created: YYYY-MM-DD                  |
 | Due:     YYYY-MM-DD                  |
 +--------------------------------------+
 ```
 
 - Task title should be bold or visually strongest.
-- Created and Due dates should be secondary metadata.
+- Due date should be secondary metadata.
 - Status badge should remain easy to scan on the right side.
 
 ## 6. Date Due Task List Popup

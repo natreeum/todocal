@@ -129,11 +129,11 @@ It is intended to bridge the gap between product planning and implementation.
 - Include tasks where `startDate <= today <= dueDate`.
 
 ### 4.3. Task Row Rules
-- Each row displays task title, created date, due date, and status.
-- Do not render task title, created date, and due date as a single inline sentence.
+- Each row displays task title, due date, and status.
+- Do not render task title and due date as a single inline sentence.
 - Use a compact card or row-block layout.
 - Task title must be bold or visually strongest.
-- Created and Due dates must be secondary metadata.
+- Due date must be secondary metadata.
 - Status should be displayed as a right-aligned badge or compact status element.
 - Each row must be clickable.
 - Clicking a task row opens the task detail popup.
@@ -150,7 +150,6 @@ It is intended to bridge the gap between product planning and implementation.
 
 ```text
 Task Title                    status
-Created: YYYY-MM-DD
 Due:     YYYY-MM-DD
 ```
 
